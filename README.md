@@ -2,7 +2,7 @@
 
 **📬 Contact**
 - Telegram: https://t.me/dexoryn_here
-- GitHub: https://github.com/dexorynLabs
+- GitHub: https://github.com/dexoryn
 - X (Twitter): https://x.com/dexoryn
 
 For the latest, more effective version of the bot or help running it, please contact the links above.
