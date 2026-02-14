@@ -1,0 +1,47 @@
+services:
+  # Polymarket Trading Bot Application
+  polymarket-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: polymarket-trading-bot
+    restart: unless-stopped
+    environment:
+      # MongoDB Configuration (External)
+      MONGO_URI: ${MONGO_URI}
+      
+      # Trading Configuration (from .env file)
+      USER_ADDRESSES: ${USER_ADDRESSES}
+      PROXY_WALLET: ${PROXY_WALLET}
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      
+      # Polymarket CLOB Configuration
+      CLOB_HTTP_URL: ${CLOB_HTTP_URL:-https://clob.polymarket.com}
+      CLOB_WS_URL: ${CLOB_WS_URL:-wss://ws-subscriptions-clob.polymarket.com/ws}
+      
+      # Blockchain Configuration
+      RPC_URL: ${RPC_URL}
+      USDC_CONTRACT_ADDRESS: ${USDC_CONTRACT_ADDRESS:-0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174}
+      
+      # Optional: Copy Trading Strategy Settings
+      COPY_STRATEGY: ${COPY_STRATEGY:-fixed}
+      MULTIPLIER: ${MULTIPLIER:-0.5}
+      MIN_POSITION_SIZE: ${MIN_POSITION_SIZE:-10}
+      MAX_POSITION_SIZE: ${MAX_POSITION_SIZE:-1000}
+      MIN_PROBABILITY: ${MIN_PROBABILITY:-0.1}
+      MAX_PROBABILITY: ${MAX_PROBABILITY:-0.9}
+      
+      # Optional: Advanced Settings
+      POLL_INTERVAL: ${POLL_INTERVAL:-1.0}
+      TRADE_AGGREGATION_WINDOW: ${TRADE_AGGREGATION_WINDOW:-30}
+      MAX_SLIPPAGE: ${MAX_SLIPPAGE:-0.02}
+      
+    volumes:
+      # Mount data directory for logs and outputs
+      - ./data:/app/data
+      - ./logs:/app/logs
+      # Mount .env file (optional, as env vars are passed above)
+      - ./.env:/app/.env:ro
+    # Uncomment below to enable interactive mode for debugging
+    # stdin_open: true
+    # tty: true
